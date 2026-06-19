@@ -1,0 +1,27 @@
+{
+  "name": "cod_e-commerce_backend",
+  "version": "1.0.0",
+  "description": "A scalable and decoupled backend service designed specifically for Cash-on-Delivery (COD) e-commerce operations.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remouli16/COD_E-commerce_Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/remouli16/COD_E-commerce_Backend/issues"
+  },
+  "homepage": "https://github.com/remouli16/COD_E-commerce_Backend#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.7.1"
+  }
+}
