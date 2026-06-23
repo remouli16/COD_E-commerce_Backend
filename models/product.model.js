@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    images: [String], // مصفوفة روابط الصور
+    //images: [String], // مصفوفة روابط الصور
     category: {
       type: String,
       required: [true, "التصنيف مطلوب"],
