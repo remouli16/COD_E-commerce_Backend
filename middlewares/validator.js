@@ -1,8 +1,8 @@
-import AppError from "../error_midellware/appError.js";
+import AppError from "../error/appError.js";
 
-const validate = (schema) => {
+const validate = (schema, property) => {
   return (req, res, next) => {
-    const { error, value } = schema.validate(req.body, {
+    const { error, value } = schema.validate(req[property], {
       abortEarly: false, //من أجل اظهار جميع الاخطاء للمستخدم
       stripUnknown: true, //من أجل حذف الحقول غير المطلوبة
     });
@@ -12,7 +12,7 @@ const validate = (schema) => {
       return next(new AppError(message, 400));
     }
 
-    req.body = value;
+    req[property] = value;
 
     next();
   };

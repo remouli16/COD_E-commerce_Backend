@@ -1,4 +1,4 @@
-import AppError from "../error_midellware/appError.js";
+import AppError from "../error/appError.js";
 
 export const globalErrorHandling = (err, req, res, next) => {
   //console.log("🔥 GLOBAL ERROR MIDDLEWARE TRIGGERED");

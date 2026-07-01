@@ -1,40 +1,16 @@
-import Product from "../models/product.model.js";
-import AppError from "../error_midellware/appError.js";
-import catchAsync from "../error_midellware/catchAsync.js";
+import catchAsync from "../error/catchAsync.js";
+import {
+  createProductService,
+  getProductsService,
+  findProductByIdService,
+} from "../services/product.service.js";
 
-const createProduct = catchAsync(async (req, res, next) => {
-  const {
-    name,
-    purchasePrice,
-    sellingPrice,
-    description,
-    images,
-    category,
-    hasVariants,
-    stock,
-    variantTypes,
-    variants,
-  } = req.body;
-
-  // validation
-  if (!name || !purchasePrice || !sellingPrice || !category) {
-    throw new AppError("Missing required fields", 400);
-  }
-
-  const productData = {
-    name,
-    purchasePrice,
-    sellingPrice,
-    description: description || "",
-    images: images || [],
-    category,
-    hasVariants: hasVariants || false,
-    variantTypes: variantTypes || [],
-    variants: variants || [],
-    stock: hasVariants ? 0 : stock || 0,
+export const createProduct = catchAsync(async (req, res, next) => {
+  const data = {
+    ...req.body,
   };
 
-  const product = await Product.create(productData);
+  const product = await createProductService(data);
 
   res.status(201).json({
     success: true,
@@ -42,4 +18,19 @@ const createProduct = catchAsync(async (req, res, next) => {
   });
 });
 
-export default createProduct;
+export const getProducts = catchAsync(async (req, res, next) => {
+  const products = await getProductsService();
+  res.status(200).json({
+    success: true,
+    data: products,
+  });
+});
+
+export const findProductById = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const product = await findProductByIdService(id);
+  res.status(200).json({
+    success: true,
+    data: product,
+  });
+});
