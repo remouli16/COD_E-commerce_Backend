@@ -3,14 +3,23 @@ import {
   createProduct,
   getProducts,
   findProductById,
+  findProductByIdAndUpdate,
 } from "../controllers/product.controller.js";
 import validate from "../middlewares/validator.js";
 import {
   createProductSchema,
-  getProductSchema,
+  idtSchema,
+  updateProductSchema,
 } from "../validators/product.validator.js";
 const router = express.Router();
 router.post("/", validate(createProductSchema, "body"), createProduct);
 router.get("/", getProducts);
-router.get("/:id", validate(getProductSchema, "params"), findProductById);
+router.get("/:id", validate(idtSchema, "params"), findProductById);
+router.patch(
+  "/:id",
+  validate(idtSchema, "params"),
+  validate(updateProductSchema, "body"),
+  findProductByIdAndUpdate,
+);
+
 export default router;

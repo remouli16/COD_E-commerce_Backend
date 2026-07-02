@@ -11,12 +11,12 @@ export const createProductService = async (data) => {
   return product;
 };
 
-export const getProductsService = async (req, res, next) => {
+export const getProductsService = async () => {
   const products = await Product.find().select(
     "id name sellingPrice description images category",
   );
   if (!products) {
-    return next(new AppError("No product to show", 404));
+    throw new AppError("product not found", 404);
   }
   return products;
 };
@@ -24,7 +24,40 @@ export const getProductsService = async (req, res, next) => {
 export const findProductByIdService = async (id) => {
   const product = await Product.findById(id);
   if (!product) {
-    return next(new AppError("Product not found!!", 404));
+    throw new AppError("product not found", 404);
   }
+  return product;
+};
+
+export const findProductByIdAndUpdateService = async (id, data) => {
+  const existingProduct = await Product.findById(id);
+
+  if (!existingProduct) {
+    throw new AppError("product not found", 404);
+  }
+
+  const purchasePrice =
+    data.purchasePrice !== undefined
+      ? data.purchasePrice
+      : existingProduct.purchasePrice;
+
+  const sellingPrice =
+    data.sellingPrice !== undefined
+      ? data.sellingPrice
+      : existingProduct.sellingPrice;
+
+  if (sellingPrice < purchasePrice) {
+    throw new AppError("sellingPrice must be greater than purchasePrice", 400);
+  }
+
+  if (data.hasVariants === true) {
+    data.stock = 0;
+  }
+
+  const product = await Product.findByIdAndUpdate(id, data, {
+    new: true,
+    runValidators: true,
+  });
+
   return product;
 };

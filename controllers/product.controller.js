@@ -3,6 +3,7 @@ import {
   createProductService,
   getProductsService,
   findProductByIdService,
+  findProductByIdAndUpdateService,
 } from "../services/product.service.js";
 
 export const createProduct = catchAsync(async (req, res, next) => {
@@ -29,6 +30,16 @@ export const getProducts = catchAsync(async (req, res, next) => {
 export const findProductById = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const product = await findProductByIdService(id);
+  res.status(200).json({
+    success: true,
+    data: product,
+  });
+});
+
+export const findProductByIdAndUpdate = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const data = { ...req.body };
+  const product = await findProductByIdAndUpdateService(id, data);
   res.status(200).json({
     success: true,
     data: product,
