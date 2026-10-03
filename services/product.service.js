@@ -7,14 +7,12 @@ export const createProductService = async (data) => {
     stock: data.hasVariants ? 0 : data.stock,
   };
 
-  const product = await Product.create(data);
+  const product = await Product.create(finalData);
   return product;
 };
 
 export const getProductsService = async () => {
-  const products = await Product.find().select(
-    "id name sellingPrice description images category",
-  );
+  const products = await Product.find();
   if (!products) {
     throw new AppError("product not found", 404);
   }

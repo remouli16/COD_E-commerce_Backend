@@ -11,8 +11,15 @@ import {
   idtSchema,
   updateProductSchema,
 } from "../validators/product.validator.js";
+import { authorize, authenticate } from "../middlewares/auth.middleware.js";
 const router = express.Router();
-router.post("/", validate(createProductSchema, "body"), createProduct);
+router.post(
+  "/",
+  authenticate,
+  authorize("admin"),
+  validate(createProductSchema, "body"),
+  createProduct,
+);
 router.get("/", getProducts);
 router.get("/:id", validate(idtSchema, "params"), findProductById);
 router.patch(

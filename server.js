@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import productRouter from "./routes/product.router.js";
+import orderRouter from "./routes/order.router.js";
+import userRouter from "./routes/user.route.js";
 import { globalErrorHandling } from "./middlewares/errorHandlingMidelleware.js";
 
 // 1. شحن متغيرات البيئة فوراً في الذاكرة
@@ -12,6 +14,9 @@ const app = express();
 // 2. برامج وسيطة لمعالجة الطلبات
 app.use(express.json());
 app.use("/api/products", productRouter);
+app.use("/api/orders", orderRouter);
+app.use("/", userRouter);
+
 app.use(globalErrorHandling);
 
 // 3. استدعاء دالة الاتصال بـ MongoDB Atlas
