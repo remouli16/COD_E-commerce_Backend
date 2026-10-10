@@ -15,7 +15,12 @@ export const authenticate = catchAsync(async (req, res, next) => {
     throw new AppError("Invalid authorization header", 401);
   }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (error) {
+    throw new AppError("Invalid or expired token", 403);
+  }
 
   // 6. البحث عن المستخدم
   const user = await User.findById(decoded.userId);

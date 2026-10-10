@@ -5,6 +5,8 @@ import productRouter from "./routes/product.router.js";
 import orderRouter from "./routes/order.router.js";
 import userRouter from "./routes/user.route.js";
 import { globalErrorHandling } from "./middlewares/errorHandlingMidelleware.js";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
 
 // 1. شحن متغيرات البيئة فوراً في الذاكرة
 dotenv.config();
@@ -12,7 +14,10 @@ dotenv.config();
 const app = express();
 
 // 2. برامج وسيطة لمعالجة الطلبات
+app.disable("x-powered-by");
+app.use(helmet());
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api/products", productRouter);
 app.use("/api/orders", orderRouter);
 app.use("/", userRouter);

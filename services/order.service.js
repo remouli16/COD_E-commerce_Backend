@@ -1,7 +1,7 @@
 import Product from "../models/product.model.js";
 import Order from "../models/order.model.js";
 import AppError from "../error/appError.js";
-import { SHIPPING_COST } from "../config/shipping.js";
+import { SHIPPING_COST } from "../utils/shipping.js";
 
 export const createOrderService = async (data) => {
   const {
